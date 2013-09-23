@@ -54,6 +54,60 @@ provider = {
         'mobile': {
             'type': 'string',
         },
+        'fax': {
+            'type': 'string',
+        },
+        'address': {
+            'type': 'string',
+        },
+        'email': {
+            'type': 'string',
+        },
+        'qq': {
+            'type': 'string',
+        },
+        'py_kaihuhang': {
+            'type': 'string',
+        },
+        'account': {
+            'type': 'string',
+        },
+        'category': {
+            'type': 'string',
+        },
+        'category': {
+            'type': 'string',
+        },
+        'remark': {
+            'type': 'string',
+        }
+    }
+}
+
+
+product = {
+    'schema': {
+        'name': {
+            'type': 'string',
+        },
+        'company': {
+            'type': 'string',
+        },
+        'color': {
+            'type': 'string',
+        },
+        'describ': {
+            'type': 'string',
+        },
+        'min': {
+            'type': 'string',
+        },
+        'max': {
+            'type': 'string',
+        },
+        'serial_num': {
+            'type': 'string',
+        }
     }
 }
 
@@ -141,6 +195,6 @@ works = {
 # be accessible to the API consumer.
 DOMAIN = {
     'provider': provider,
-    #'people': people,
-    #'works': works,
+    'product': product,
+    #'account': account
 }
