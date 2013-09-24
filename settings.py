@@ -208,7 +208,9 @@ works = {
 # The DOMAIN dict explains which resources will be available and how they will
 # be accessible to the API consumer.
 DOMAIN = {
+    # 供应商
     'provider': provider,
+
     'product': product,
     'account': account,
 }
