@@ -111,6 +111,20 @@ product = {
     }
 }
 
+account = {
+    'schema': {
+        'username':{
+            'type': 'string',
+            'required': True,
+            #'unique': True,
+        },
+        'password':{
+            'type': 'string',
+            'required': True,
+        },
+    },
+}
+
 # Our API will expose two resources (MongoDB collections): 'people' and
 # 'works'. In order to allow for proper data validation, we define beaviour
 # and structure.
@@ -196,5 +210,5 @@ works = {
 DOMAIN = {
     'provider': provider,
     'product': product,
-    #'account': account
+    'account': account,
 }
