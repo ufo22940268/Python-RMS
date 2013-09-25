@@ -19,8 +19,20 @@
 """
 
 import os
-import run
-from local import *
+from rms import deploy
+
+# Running on local machine. Let's just use the local mongod instance.
+MONGO_HOST = 'localhost'
+MONGO_PORT = 27017
+MONGO_USERNAME = 'user'
+MONGO_PASSWORD = 'user'
+MONGO_DBNAME = 'rms'
+
+if deploy.is_local():
+    # let's not forget the API entry point
+    SERVER_NAME = "127.0.0.1:5000"
+else:
+    SERVER_NAME = "192.241.196.189:5000"
 
 # Enable reads (GET), inserts (POST) and DELETE for resources/collections
 # (if you omit this line, the API will default to ['GET'] and provide
@@ -84,6 +96,53 @@ provider = {
     }
 }
 
+operator = {
+    'schema': {
+        'serial_num': {
+            'type': 'string',
+            'unique': True,
+        },
+        'name': {
+            'type': 'string',
+        },
+        'password': {
+            'type': 'string',
+        },
+        'contact': {
+            'type': 'string',
+        },
+        'mobile': {
+            'type': 'string',
+        },
+        'fax': {
+            'type': 'string',
+        },
+        'address': {
+            'type': 'string',
+        },
+        'email': {
+            'type': 'string',
+        },
+        'qq': {
+            'type': 'string',
+        },
+        'py_kaihuhang': {
+            'type': 'string',
+        },
+        'account': {
+            'type': 'string',
+        },
+        'category': {
+            'type': 'string',
+        },
+        'category': {
+            'type': 'string',
+        },
+        'remark': {
+            'type': 'string',
+        }
+    }
+}
 
 product = {
     'schema': {
@@ -210,6 +269,9 @@ works = {
 DOMAIN = {
     # 供应商
     'provider': provider,
+
+    # 操作员
+    'operator': operator,
 
     'product': product,
     'account': account,
