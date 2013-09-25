@@ -30,7 +30,7 @@ def deploy():
 
 
     # now that all is set up, delete the folder again
-    run('rm -rf /tmp/rms /tmp/rms.tar.gz')
+    #run('rm -rf /tmp/rms /tmp/rms.tar.gz')
     # and finally touch the .wsgi file so that mod_wsgi triggers
     # a reload of the application
     run('touch ~/run.py')

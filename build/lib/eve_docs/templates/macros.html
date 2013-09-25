@@ -1,0 +1,65 @@
+{% macro accordian(domain, paths) -%}
+<div class="accordion" id="accordion-{{ domain }}">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" 
+        data-parent="accordion-{{ domain }}" href="#collapse-{{ domain }}">
+         /{{ domain }}
+      </a>
+    </div>
+    <div id="collapse-{{ domain }}" class="accordion-body collapse">
+      <div class="accordion-inner">
+        {% for path, method in paths.iteritems() %}
+          {% for method, attrs in method.iteritems() %}
+            {{ method_details(path, method, attrs) }}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{%- endmacro %}
+
+{% macro method_details(path, method, attrs) -%}
+{% set pathid = path|replace("{", "")|replace("}", "")|replace("/", "") %}
+<div class="method {{ method }}">
+  <a href="#{{ pathid }}-{{ method }}" data-toggle="collapse">
+    <div class="method_header">
+      <span class="method_verb {{ method }}">
+        {{ method }}
+      </span>
+      <span class="method_path">
+        {{ path }}
+      </span>
+      <span class="method_label">
+        {{ attrs.label }}
+      </span>
+      </span>
+    </div>
+  </a>
+  <div id="{{ pathid }}-{{ method }}" class="collapse">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Type</th>
+          <th>Required</th>
+          <th>Other Attributes</th>
+        </tr>
+      </thead>
+    {% for param in attrs.params %}
+      <tr>
+        <td>{{ param.pop('name') }}</td>
+        <td>{{ param.pop('type') }}</td>
+        <td>{{ param.pop('required') }}</td>
+        <td>
+          {% for key, value in param.iteritems() %}
+            {{ key }}: {{ value }}<br/>
+          {% endfor %}
+        </td>
+      </tr>
+    {% endfor %}
+    </table>
+  </div>
+</div>
+{%- endmacro %}
