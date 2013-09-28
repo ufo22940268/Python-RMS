@@ -1,23 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-    eve-demo settings
-    ~~~~~~~~~~~~~~~~~
-
-    Settings file for our little demo.
-
-    PLEASE NOTE: We don't need to create the two collections in MongoDB.
-    Actually, we don't even need to create the database: GET requests on an
-    empty/non-existant DB will be served correctly ('200' OK with an empty
-    collection); DELETE/PATCH will receive appropriate responses ('404' Not
-    Found), and POST requests will create database and collections when needed.
-    Keep in mind however that such an auto-managed database will most likely
-    perform poorly since it lacks any sort of optimized index.
-
-    :copyright: (c) 2012 by Nicola Iarocci.
-    :license: BSD, see LICENSE for more details.
-"""
-
 import os
 from rms import deploy
 
@@ -98,7 +80,7 @@ provider = {
 
 operator = {
     'schema': {
-        'serial_num': {
+        'snum': {
             'type': 'string',
             'unique': True,
         },
@@ -164,7 +146,7 @@ product = {
         'max': {
             'type': 'string',
         },
-        'serial_num': {
+        'snum': {
             'type': 'string',
         }
     }
@@ -181,6 +163,121 @@ account = {
             'type': 'string',
             'required': True,
         },
+    },
+}
+
+import = {
+    'schema': {
+
+        #入库单号
+        'snum':{
+            'type': 'string',
+            'required': True,
+            'unique': True,
+        },
+
+        #入库时间
+        'time':{
+            'type': 'datetime',
+        },
+
+        #入库类型
+        'type': {
+            'type': 'list',
+            'allowed': ['type1', 'type2', 'type3']
+        },
+
+        #供应单位
+        'provider':{
+            'type': 'string',
+        },
+
+        #操作人员
+        'provider':{
+            'type': 'string',
+        },
+
+        #产品编码
+        'product_snum': {
+            'type': 'string',
+            'required': True,
+            'data_relation' : {
+                'collection' : 'product',
+                'field': 'snum',
+            }
+        },
+    }
+}
+
+export = {
+    'schema': {
+
+        #出库单号
+        'snum':{
+            'type': 'string',
+            'required': True,
+            'unique': True,
+        },
+
+        #出库时间
+        'time':{
+            'type': 'datetime',
+        },
+
+        #出库类型
+        'type': {
+            'type': 'list',
+            'allowed': ['type1', 'type2', 'type3']
+        },
+        
+        #采购人员
+        'buyer': {
+            'type': 'string'
+        },
+
+        #采购单位
+        'buy_company': {
+            'type': 'string'
+        },
+
+        #操作人员
+        'operator': {
+            'type': 'string'
+        },
+
+        #产品编码
+        'product_snum': {
+            'type': 'string',
+            'required': True,
+            'data_relation' : {
+                'collection' : 'product',
+                'field': 'snum',
+            }
+        },
+
+        #TODO 显示产品名称 
+
+        #颜色
+        #采用整数来进行表示
+        'color': {
+            'type': 'integer'
+        },
+
+        #属性
+        'property': {
+            'type': 'string'
+        },
+
+        #备注
+        'remark': {
+            'type': 'string'
+        },
+
+        #数量
+        'count': {
+            'type': 'integer',
+            'required': True
+        }
     },
 }
 
@@ -272,6 +369,12 @@ DOMAIN = {
 
     # 操作员
     'operator': operator,
+
+    # 出货记录
+    'export': export,
+
+    # 入货记录
+    'import': import,
 
     'product': product,
     'account': account,

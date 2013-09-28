@@ -8,7 +8,6 @@ import json
 import account
 from eve.auth import BasicAuth
 from eve.auth import TokenAuth
-from flask.ext.bootstrap import Bootstrap
 
 class MyBasicAuth(BasicAuth):
     def check_auth(self, username, password, allowed_roles, resource,
