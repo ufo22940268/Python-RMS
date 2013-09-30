@@ -166,7 +166,7 @@ account = {
     },
 }
 
-import = {
+imports = {
     'schema': {
 
         #入库单号
@@ -374,7 +374,7 @@ DOMAIN = {
     'export': export,
 
     # 入货记录
-    'import': import,
+    'import': imports,
 
     'product': product,
     'account': account,
