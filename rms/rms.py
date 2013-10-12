@@ -1,20 +1,37 @@
 # -*- coding: utf-8 -*-
 
 from eve import Eve
-app = Eve(settings='rms/settings.py')
 
 import os
 import json
 import account
+from flask import request
 from eve.auth import BasicAuth
 from eve.auth import TokenAuth
 
 class MyBasicAuth(BasicAuth):
     def check_auth(self, username, password, allowed_roles, resource,
             method):
-        return username == 'admin' and password == 'secret'
+        return account.exists(username, password)
 
-app.on_POST_account = account.add_credential_for_post
+app = Eve(settings='rms/settings.py', auth=MyBasicAuth)
+
+@app.route('/login', methods=['POST'])
+def login():
+    name = request.form['name']
+    password = request.form['password']
+    if account.exists(name, password):
+        msg = 'login succeed'
+        token =  "Basic ", account.create_credential(name, password)
+        status = 200
+    else:
+        msg = 'login failed'
+        token =  ""
+        status = 404
+
+    return json.dumps({"msg": msg, "token": token, "status": status})
+
+#app.on_POST_account = account.add_credential_for_post
 
 #if __name__ == '__main__':
     #if deploy.is_local():

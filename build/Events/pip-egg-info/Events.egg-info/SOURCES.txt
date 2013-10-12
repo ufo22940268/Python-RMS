@@ -1,0 +1,12 @@
+LICENSE
+MANIFEST.in
+README.rst
+setup.cfg
+events/__init__.py
+events/events.py
+events/tests/__init__.py
+events/tests/tests.py
+pip-egg-info/Events.egg-info/PKG-INFO
+pip-egg-info/Events.egg-info/SOURCES.txt
+pip-egg-info/Events.egg-info/dependency_links.txt
+pip-egg-info/Events.egg-info/top_level.txt
