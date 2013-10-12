@@ -1,3 +1,8 @@
-*.pyc
+lib
 Makefile
 local.py
+*.pyc
+contrib
+include
+bin
+build
