@@ -10,6 +10,7 @@ def pack():
     local('python setup.py sdist --formats=gztar', capture=False)
 
 def deploy():
+    pack()
     # figure out the release name and version
     dist = local('python setup.py --fullname', capture=True).strip()
     # upload the source tarball to the temporary folder on the server
@@ -23,20 +24,26 @@ def deploy():
         # now setup the package with our virtual environment's
         # python interpreter
         with cd('/tmp/rms/rms-1.0/'):
-            run('python setup.py install')
+            with prefix('source /root/Python-RMS/bin/activate'):
+                run('python setup.py install')
 
     #Migrate settings.
     put('rms/settings.py', '/root/rms')
 
-
     # now that all is set up, delete the folder again
-    #run('rm -rf /tmp/rms /tmp/rms.tar.gz')
+    # run('rm -rf /tmp/rms /tmp/rms.tar.gz')
     # and finally touch the .wsgi file so that mod_wsgi triggers
     # a reload of the application
-    run('touch ~/run.py')
+    relaunch();
+
+def relaunch():
+    run('pkill -f run.py')
+    with cd('/root'):
+        with prefix('source /root/Python-RMS/bin/activate'):
+            run('python run.py', pty=False)
 
 def db():
-    #Migrate db file.
+    # Migrate db file.
     local('mongodump --out /tmp/db && tar -cvf /tmp/db.tar /tmp/db')
     put('/tmp/db.tar', '/tmp/db.tar')
     with cd('/tmp'):

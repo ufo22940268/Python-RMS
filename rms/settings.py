@@ -122,7 +122,13 @@ operator = {
         },
         'remark': {
             'type': 'string',
+        },
+
+        'permission': {
+            'type': 'list',
+            'allowed': ['read', 'add', 'delete', 'validate']
         }
+
     }
 }
 

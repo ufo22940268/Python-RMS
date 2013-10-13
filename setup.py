@@ -9,19 +9,15 @@
 """
 
 """
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='rms',
     version='1.0',
     long_description=__doc__,
-    packages=['rms'],
+    packages=find_packages(),
     include_package_data=True,
-    #data_files={'eve_docs': ['templates/index.html']},
-    #package_dir = {'eve_docs': 'eve_docs'},
-    #package_data={
-        #'eve_docs': ['eve_docs/templates/*.html']
-    #},
+    package_data={'': ['rms/template/*.html']},
     zip_safe=False,
     install_requires=['Flask']
 )

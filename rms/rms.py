@@ -15,21 +15,25 @@ class MyBasicAuth(BasicAuth):
         return account.exists(username, password)
 
 app = Eve(settings='rms/settings.py', auth=MyBasicAuth)
+#app = Eve(settings='rms/settings.py')
 
 @app.route('/login', methods=['POST'])
 def login():
     name = request.form['name']
     password = request.form['password']
-    if account.exists(name, password):
+    one = account.get_one(name, password)
+    if one:
         msg = 'login succeed'
         token =  "Basic ", account.create_credential(name, password)
         status = 200
+        permissions = one.get('permission')
     else:
         msg = 'login failed'
         token =  ""
         status = 404
+        permissions = ['read', 'add', 'delete', 'validate']
 
-    return json.dumps({"msg": msg, "token": token, "status": status})
+    return json.dumps({"msg": msg, "token": token, "status": status, 'permissions': permissions})
 
 #app.on_POST_account = account.add_credential_for_post
 

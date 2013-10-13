@@ -15,10 +15,13 @@ def create_credential(name, pwd):
         raise Exception("name or pwd can't be empty")
     return (name + ":" + pwd).encode("base64")
 
-def exists(username, password):
+def get_one(username, password):
     users = list(rms.app.data.driver.db["super_user"].find()) + \
             list(rms.app.data.driver.db["operator"].find())
     for u in users:
         if username == u['name'] and password == u['password']:
-            return True
-    return False
+            return u
+    return None
+
+def exists(name, pwd):
+    return True if get_one(name, pwd) else Fals;
