@@ -11,14 +11,16 @@
 
 ##Login
 接口: /login
+
 method: POST
+
 参数: name password
 
 使用方法:
 `curl -d 'name="asdf"' -d 'name="asdf"' http://base_url/login
 
-之后每次请求需要在header中传入返回的token进行调用。
-登陆验证才有Base Auth形式，编码方式是base64。
+之后每次请求需要在header中传入返回的token进行调用。  
+登陆验证采用有Base Auth形式，编码方式是base64。
 
 ##概述
 
