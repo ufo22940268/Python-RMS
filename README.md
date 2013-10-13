@@ -10,10 +10,8 @@
 已经开发完成全部功能，没有开启登陆，但是功能已经添加，建议登陆接口最后完成。
 
 ##Login
-接口: /login
-
-method: POST
-
+接口: /login  
+method: POST  
 参数: name password
 
 使用方法:
