@@ -10,6 +10,8 @@ MONGO_USERNAME = 'user'
 MONGO_PASSWORD = 'user'
 MONGO_DBNAME = 'rms'
 
+AUTH_FIELD = "user_id"
+
 if deploy.is_local():
     # let's not forget the API entry point
     SERVER_NAME = "127.0.0.1:5000"
@@ -74,7 +76,7 @@ provider = {
         },
         'remark': {
             'type': 'string',
-        }
+        },
     }
 }
 
@@ -127,8 +129,17 @@ operator = {
         'permission': {
             'type': 'list',
             'allowed': ['read', 'add', 'delete', 'validate']
-        }
+        },
 
+        # Foreign key to super user.
+        'super_user_id': {
+            'type': 'objectid',
+            'data_relation': {
+                'collection': 'super_user',
+                'field': '_id',
+                'embeddable': True
+            },
+        },
     }
 }
 
@@ -385,3 +396,4 @@ DOMAIN = {
     'product': product,
     'account': account,
 }
+

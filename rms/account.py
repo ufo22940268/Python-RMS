@@ -2,6 +2,9 @@ import json
 import rms
 from bson.objectid import ObjectId
 
+def get_db():
+    return rms.app.data.driver.db
+
 def add_credential_for_post(request, payload):
     j = json.loads(payload.data)
     _id = j['"account1"']['_id']
@@ -13,7 +16,8 @@ def add_credential_for_post(request, payload):
 def create_credential(name, pwd):
     if not name or not pwd:
         raise Exception("name or pwd can't be empty")
-    return (name + ":" + pwd).encode("base64")
+    cred = (name + ":" + pwd).encode("base64")
+    return cred[:-1]
 
 def get_one(username, password):
     users = list(rms.app.data.driver.db["super_user"].find()) + \
@@ -24,4 +28,22 @@ def get_one(username, password):
     return None
 
 def exists(name, pwd):
-    return True if get_one(name, pwd) else Fals;
+    return True if get_one(name, pwd) else False;
+
+def update_super_user_id(request, payload):
+    name, pwd = parse_username_and_password(request)
+    print name, pwd
+    one = get_db()['super_user'].find_one({'name': name, 'password': pwd})
+    if one:
+        super_id = one['_id']
+        get_db()['operator'].update({'name': name}, {'$set': {'super_user_id': super_id}})
+
+def parse_username_and_password(request):
+    if request.headers.get('Authorization'):
+        auth = request.headers['Authorization'].split()[1].decode('base64')
+        return auth.split(':')
+
+def get_super_user_id(name, pwd):
+    u = get_db()['super_user'].find_one({'name': name, 'password': pwd})
+    if u:
+        return str(u['_id'])
