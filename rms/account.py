@@ -1,6 +1,7 @@
 import json
 import rms
 from bson.objectid import ObjectId
+from flask import request as req
 
 def get_db():
     return rms.app.data.driver.db
@@ -42,6 +43,18 @@ def parse_username_and_password(request):
     if request.headers.get('Authorization'):
         auth = request.headers['Authorization'].split()[1].decode('base64')
         return auth.split(':')
+
+def parse_auth_field():
+    username, pwd = parse_username_and_password(req)
+    user = get_db().operators.find_one({'name': username})
+    uid = None
+    if user:
+        uid = user['super_user_id']
+    else: 
+        user = get_db().super_user.find_one({'name': username})
+        if user:
+            uid = user['_id']
+    return uid
 
 def get_super_user_id(name, pwd):
     u = get_db()['super_user'].find_one({'name': name, 'password': pwd})

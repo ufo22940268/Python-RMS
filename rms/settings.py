@@ -10,6 +10,8 @@ MONGO_USERNAME = 'user'
 MONGO_PASSWORD = 'user'
 MONGO_DBNAME = 'rms'
 
+DEBUG = True
+
 AUTH_FIELD = "user_id"
 
 if deploy.is_local():
@@ -145,27 +147,52 @@ operator = {
 
 product = {
     'schema': {
+
+        #产品编码
+        'snum': {
+            'type': 'string',
+            'required': 'true'
+        },
+
+        #产品名称
         'name': {
             'type': 'string',
         },
-        'company': {
+
+        #单位
+        'provider': {
             'type': 'string',
         },
+
+        #颜色
         'color': {
             'type': 'string',
         },
-        'describ': {
+
+        #属性
+        'property': {
             'type': 'string',
         },
+
+        #备注
+        'comment': {
+            'type': 'string',
+        },
+
+        #库存下线
         'min': {
-            'type': 'string',
+            'type': 'int',
         },
+
+        #库存上限
         'max': {
-            'type': 'string',
+            'type': 'int',
         },
-        'snum': {
-            'type': 'string',
-        }
+
+        #库存数量
+        'num': {
+            'type': 'int',
+        },
     }
 }
 
@@ -184,24 +211,23 @@ account = {
 }
 
 imports = {
+    'id_field': 'snum',
     'schema': {
 
-        #入库单号
+
+        ##入库单号
         'snum':{
             'type': 'string',
-            'required': True,
-            'unique': True,
         },
 
         #入库时间
         'time':{
-            'type': 'datetime',
+            'type': 'string',
         },
 
         #入库类型
         'type': {
-            'type': 'list',
-            'allowed': ['type1', 'type2', 'type3']
+            'type': 'string',
         },
 
         #供应单位
@@ -209,8 +235,18 @@ imports = {
             'type': 'string',
         },
 
+        #采购人员
+        'buyer':{
+            'type': 'string',
+        },
+
         #操作人员
-        'provider':{
+        'operator':{
+            'type': 'string',
+        },
+
+        #产品名称
+        'product_name': {
             'type': 'string',
         },
 
@@ -218,11 +254,26 @@ imports = {
         'product_snum': {
             'type': 'string',
             'required': True,
-            'data_relation' : {
-                'collection' : 'product',
-                'field': 'snum',
-            }
+            #'data_relation' : {
+                #'collection' : 'product',
+                #'field': 'snum',
+            #}
         },
+
+        #颜色
+        'color': {
+            'type': 'string',
+        },
+
+        #属性
+        'property': {
+            'type': 'string',
+        },
+
+        #备注
+        'comment': {
+            'type': 'string',
+        }
     }
 }
 
@@ -238,7 +289,7 @@ export = {
 
         #出库时间
         'time':{
-            'type': 'datetime',
+            'type': 'string',
         },
 
         #出库类型

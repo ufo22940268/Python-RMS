@@ -5,6 +5,7 @@ from eve import Eve
 import os
 import json
 import account
+import product
 from flask import request
 from eve.auth import BasicAuth
 from eve.auth import TokenAuth
@@ -29,6 +30,16 @@ class MyBasicAuth(BasicAuth):
 app = Eve(settings='rms/settings.py', auth=MyBasicAuth)
 #app = Eve(settings='rms/settings.py')
 
+from flask import request, current_app
+
+@app.before_request
+def log_request():
+    log = "HEADERS:\t\n" + str(request.headers) + "\n"
+    if request.form:
+        log += "\nFORMS:\t\n" + str(request.form);
+    current_app.logger.debug(log)
+
+
 @app.route('/login', methods=['POST'])
 def login():
     name = request.form['name']
@@ -51,4 +62,4 @@ def login():
         result['super_user_id'] = sid
     return json.dumps(result)
 
-#app.on_POST_operator = account.update_super_user_id
+app.on_insert_import = product.before_import
