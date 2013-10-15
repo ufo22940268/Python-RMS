@@ -273,6 +273,17 @@ imports = {
         #备注
         'comment': {
             'type': 'string',
+        },
+
+        #数量
+        'quantity': {
+            'type': 'integer',
+            'default': 1,
+        },
+
+        #单位
+        'unit': {
+            'type': 'string',
         }
     }
 }

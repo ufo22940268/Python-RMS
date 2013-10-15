@@ -21,7 +21,7 @@ def before_import(document):
     else:
         get_db().product.update(
                 {'snum': product_snum},
-                {'$inc': {'num': 1}}
+                {'$inc': {'num': document[0]['quantity']}}
                 )
 
 def create_product_from_import(doc):
@@ -32,6 +32,7 @@ def create_product_from_import(doc):
             'property': 'property',
             'comment': 'comment',
             'provider': 'company',
+            'quantity': 'num',
         }
 
 
@@ -43,8 +44,5 @@ def create_product_from_import(doc):
     for k, v in raw.items():
         if k in m:
             new[m[k]] = v
-
-    #TODO change to real number.
-    new['num'] = 1
 
     insert_with_auth_field(get_db().product, new)
