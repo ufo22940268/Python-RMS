@@ -273,6 +273,7 @@ imports = {
         #备注
         'comment': {
             'type': 'string',
+            'default': 'asdfa',
         },
 
         #数量
