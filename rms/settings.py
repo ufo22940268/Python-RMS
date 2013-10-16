@@ -278,8 +278,8 @@ imports = {
 
         #数量
         'quantity': {
-            'type': 'integer',
-            'default': 1,
+            'type': 'string',
+            'default': '1',
         },
 
         #单位

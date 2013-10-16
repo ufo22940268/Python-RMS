@@ -21,7 +21,7 @@ def before_import(document):
     else:
         get_db().product.update(
                 {'snum': product_snum},
-                {'$inc': {'num': document[0]['quantity']}}
+                {'$inc': {'num': int(document[0]['quantity'])}}
                 )
 
 def create_product_from_import(doc):
