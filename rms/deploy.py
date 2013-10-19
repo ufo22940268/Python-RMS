@@ -12,4 +12,4 @@
 import os
 
 def is_local():
-    return os.environ['USER'].find('ccheng') != -1
+    return os.environ['USER'].find('ccheng') != -1 or os.environ['USER'].find('garlic') != -1
