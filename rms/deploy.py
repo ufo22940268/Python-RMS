@@ -13,3 +13,6 @@ import os
 
 def is_local():
     return os.environ['USER'].find('ccheng') != -1 or os.environ['USER'].find('garlic') != -1
+
+def get_server_addr():
+    return "192.168.1.102:5000"

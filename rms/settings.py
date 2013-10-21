@@ -14,11 +14,12 @@ DEBUG = True
 
 AUTH_FIELD = "user_id"
 
-if deploy.is_local():
-    # let's not forget the API entry point
-    SERVER_NAME = "127.0.0.1:5000"
-else:
-    SERVER_NAME = "192.241.196.189:5000"
+#if deploy.is_local():
+    ## let's not forget the API entry point
+    #SERVER_NAME = "127.0.0.1:5000"
+#else:
+    #SERVER_NAME = "192.241.196.189:5000"
+SERVER_NAME = deploy.get_server_addr()
 
 # Enable reads (GET), inserts (POST) and DELETE for resources/collections
 # (if you omit this line, the API will default to ['GET'] and provide
@@ -309,7 +310,7 @@ export = {
             'type': 'list',
             'allowed': ['type1', 'type2', 'type3']
         },
-        
+
         #采购人员
         'buyer': {
             'type': 'string'
@@ -335,7 +336,7 @@ export = {
             }
         },
 
-        #TODO 显示产品名称 
+        #TODO 显示产品名称
 
         #颜色
         #采用整数来进行表示
