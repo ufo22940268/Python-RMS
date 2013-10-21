@@ -14,11 +14,12 @@ DEBUG = True
 
 AUTH_FIELD = "user_id"
 
-if deploy.is_local():
-    # let's not forget the API entry point
-    SERVER_NAME = "127.0.0.1:5000"
-else:
-    SERVER_NAME = "192.241.196.189:5000"
+#if deploy.is_local():
+    ## let's not forget the API entry point
+    #SERVER_NAME = "127.0.0.1:5000"
+#else:
+    #SERVER_NAME = "192.241.196.189:5000"
+SERVER_NAME = deploy.get_host() + ":5000"
 
 # Enable reads (GET), inserts (POST) and DELETE for resources/collections
 # (if you omit this line, the API will default to ['GET'] and provide
@@ -159,6 +160,11 @@ product = {
             'type': 'string',
         },
 
+        #产品规格
+        'specification': {
+            'type': 'string',
+        },
+
         #单位
         'provider': {
             'type': 'string',
@@ -181,17 +187,19 @@ product = {
 
         #库存下线
         'min': {
-            'type': 'int',
+            'type': 'string',
         },
 
         #库存上限
         'max': {
-            'type': 'int',
+            'type': 'string',
+            'default': '0',
         },
 
         #库存数量
         'num': {
-            'type': 'int',
+            'type': 'string',
+            'default': '0',
         },
     }
 }
@@ -299,6 +307,21 @@ export = {
             'unique': True,
         },
 
+        #备注
+        'comment': {
+            'type': 'string',
+        },
+
+        #产品名称
+        'product_name': {
+            'type': 'string',
+        },
+
+        #单位
+        'unit': {
+            'type': 'string',
+        },
+
         #出库时间
         'time':{
             'type': 'string',
@@ -306,8 +329,7 @@ export = {
 
         #出库类型
         'type': {
-            'type': 'list',
-            'allowed': ['type1', 'type2', 'type3']
+            'type': 'string',
         },
         
         #采购人员
@@ -335,12 +357,15 @@ export = {
             }
         },
 
-        #TODO 显示产品名称 
+        #供应单位
+        'provider':{
+            'type': 'string',
+        },
 
         #颜色
         #采用整数来进行表示
         'color': {
-            'type': 'integer'
+            'type': 'string'
         },
 
         #属性
@@ -354,9 +379,9 @@ export = {
         },
 
         #数量
-        'count': {
-            'type': 'integer',
-            'required': True
+        'quantity': {
+            'type': 'string',
+            'default': '1',
         }
     },
 }

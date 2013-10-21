@@ -13,3 +13,10 @@ import os
 
 def is_local():
     return os.environ['USER'].find('ccheng') != -1 or os.environ['USER'].find('garlic') != -1
+
+def get_host():
+    user = os.environ['USER']
+    if user == 'ccheng':
+        return '127.0.0.1'
+    else:
+        return '192.241.196.189'
