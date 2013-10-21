@@ -331,7 +331,7 @@ export = {
         'type': {
             'type': 'string',
         },
-        
+
         #采购人员
         'buyer': {
             'type': 'string'
