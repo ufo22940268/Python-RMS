@@ -13,6 +13,7 @@ MONGO_DBNAME = 'rms'
 DEBUG = True
 
 AUTH_FIELD = "user_id"
+#DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 #if deploy.is_local():
     ## let's not forget the API entry point
@@ -37,9 +38,14 @@ CACHE_EXPIRES = 20
 
 provider = {
     'schema': {
+        'snum': {
+            'type': 'string',
+            'required': True,
+            'unique': True,
+        },
+
         'name': {
             'type': 'string',
-            'unique': True,
         },
         'postcode': {
             'type': 'string',
@@ -85,6 +91,7 @@ provider = {
 
 operator = {
     'schema': {
+        #工号
         'snum': {
             'type': 'string',
             'unique': True,
@@ -95,9 +102,27 @@ operator = {
         'password': {
             'type': 'string',
         },
+
+        #联系人
         'contact': {
             'type': 'string',
         },
+
+        #电话
+        'tel': {
+            'type': 'string',
+        },
+
+        #部门
+        'department': {
+            'type': 'string',
+        },
+
+        #职位
+        'job': {
+            'type': 'string',
+        },
+
         'mobile': {
             'type': 'string',
         },
@@ -107,24 +132,31 @@ operator = {
         'address': {
             'type': 'string',
         },
+
         'email': {
             'type': 'string',
         },
+
         'qq': {
             'type': 'string',
         },
+
         'py_kaihuhang': {
             'type': 'string',
         },
+
         'account': {
             'type': 'string',
         },
+
         'category': {
             'type': 'string',
         },
+
         'category': {
             'type': 'string',
         },
+
         'remark': {
             'type': 'string',
         },
@@ -146,13 +178,77 @@ operator = {
     }
 }
 
+customer = {
+    'schema': {
+        #编码
+        'snum': {
+            'type': 'string',
+            'unique': True,
+        },
+
+        #名称
+        'name': {
+            'type': 'string',
+        },
+
+        #联系人
+        'contact': {
+            'type': 'string',
+        },
+
+        #联系电话
+        'tel': {
+            'type': 'string',
+        },
+
+        'mobile': {
+            'type': 'string',
+        },
+
+        'fax': {
+            'type': 'string',
+        },
+
+        'address': {
+            'type': 'string',
+        },
+
+        #邮编
+        'postcode': {
+            'type': 'string',
+        },
+
+        'email': {
+            'type': 'string',
+        },
+
+        'qq': {
+            'type': 'string',
+        },
+
+        'py_kaihuhang': {
+            'type': 'string',
+        },
+
+        'category': {
+            'type': 'string',
+        },
+
+        #备注
+        'comment': {
+            'type': 'string',
+        },
+    }
+}
+
 product = {
     'schema': {
 
         #产品编码
         'snum': {
             'type': 'string',
-            'required': 'true'
+            'required': 'true',
+            'unique': 'true',
         },
 
         #产品名称
@@ -163,6 +259,11 @@ product = {
         #产品规格
         'specification': {
             'type': 'string',
+        },
+
+        #插入时间
+        'time':{
+            'type': 'datetime',
         },
 
         #单位
@@ -204,19 +305,93 @@ product = {
     }
 }
 
-account = {
+order = {
     'schema': {
-        'username':{
+
+        #订单号
+        'snum': {
+            'type': 'string',
+            'required': 'true',
+            'unique': 'true',
+        },
+
+        #客户名称
+        'customer_name': {
+            'type': 'string',
+        },
+
+        #联系人
+        'contact': {
+            'type': 'string',
+        },
+
+        #快递公司
+        'deliver': {
+            'type': 'string',
+        },
+
+        #发货时间
+        'deliver_time': {
+            'type': 'string',
+        },
+
+        #产品编码
+        'product_snum': {
             'type': 'string',
             'required': True,
-            #'unique': True,
+            'data_relation' : {
+                'collection' : 'product',
+                'field': 'snum',
+            }
         },
-        'password':{
+
+        #单位
+        'unit_price': {
             'type': 'string',
-            'required': True,
         },
-    },
+
+        #数量
+        'quantity': {
+            'type': 'string',
+        },
+
+        #总价
+        'total_price': {
+            'type': 'string',
+        },
+
+        #订单状态
+        'status': {
+            'type': 'string',
+            'allowed': ["wait_for_buyer", "buyer_paid", "buyer_delivered", "refund"],
+        },
+
+        #送货地址
+        'address': {
+            'type': 'string',
+        },
+
+        #备注u
+        'comment': {
+            'type': 'string',
+        },
+
+    }
 }
+
+#account = {
+    #'schema': {
+        #'username':{
+            #'type': 'string',
+            #'required': True,
+            ##'unique': True,
+        #},
+        #'password':{
+            #'type': 'string',
+            #'required': True,
+        #},
+    #},
+#}
 
 imports = {
     'id_field': 'snum',
@@ -230,7 +405,7 @@ imports = {
 
         #入库时间
         'time':{
-            'type': 'string',
+            'type': 'datetime',
         },
 
         #入库类型
@@ -262,10 +437,10 @@ imports = {
         'product_snum': {
             'type': 'string',
             'required': True,
-            #'data_relation' : {
-                #'collection' : 'product',
-                #'field': 'snum',
-            #}
+            'data_relation' : {
+                'collection' : 'product',
+                'field': 'snum',
+            }
         },
 
         #颜色
@@ -324,7 +499,7 @@ export = {
 
         #出库时间
         'time':{
-            'type': 'string',
+            'type': 'datetime',
         },
 
         #出库类型
@@ -384,6 +559,23 @@ export = {
             'default': '1',
         }
     },
+}
+
+test = {
+    'schema': {
+        #时间
+        'date': {
+            'type': 'datetime',
+        },
+
+        'num': {
+            'type': 'integer',
+        }, 
+
+        'k': {
+            'type': 'string',
+        }
+    }
 }
 
 # Our API will expose two resources (MongoDB collections): 'people' and
@@ -482,6 +674,14 @@ DOMAIN = {
     'import': imports,
 
     'product': product,
-    'account': account,
+
+    #客户
+    'customer': customer,
+
+    #订单
+    'order': order,
+
+    #'account': account,
+    'test': test
 }
 

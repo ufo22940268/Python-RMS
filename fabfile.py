@@ -40,7 +40,7 @@ def relaunch():
     run('pkill -f run.py', warn_only = True)
     with cd('/root'):
         with prefix('source /root/Python-RMS/bin/activate'):
-            run('python run.py &> /root/rms/log', pty=False, shell_escape=False)
+            run('python run.py &> /root/rms/log.txt', pty=False, shell_escape=False)
 
 def db():
     # Migrate db file.
