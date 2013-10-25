@@ -9,6 +9,9 @@ import product
 from flask import request
 from eve.auth import BasicAuth
 from eve.auth import TokenAuth
+import validate
+from flask import request, current_app
+
 
 app = None
 
@@ -20,7 +23,7 @@ class MyBasicAuth(BasicAuth):
         user = operators.find_one({'name': username})
         if user:
             self.request_auth_value = user['super_user_id']
-        else: 
+        else:
             user = super_users.find_one({'name': username})
             if user:
                 self.request_auth_value = user['_id']
@@ -29,8 +32,7 @@ class MyBasicAuth(BasicAuth):
 
 app = Eve(settings='rms/settings.py', auth=MyBasicAuth)
 #app = Eve(settings='rms/settings.py')
-
-from flask import request, current_app
+app.on_insert_import = product.before_import
 
 @app.before_request
 def log_request():
@@ -50,16 +52,27 @@ def login():
         msg = 'login succeed'
         token =  "Basic " + account.create_credential(name, password)
         status = 200
-        permissions = one.get('permission')
+        banned_permissions = one.get('banned_permissions')
     else:
         msg = 'login failed'
         token =  ""
         status = 404
-        permissions = []
+        banned_permissions = []
 
-    result = {"msg": msg, "token": token, "status": status, 'permissions': permissions}
+    result = {"msg": msg, "token": token, "status": status, 'banned_permissions': banned_permissions}
     if sid:
         result['super_user_id'] = sid
     return json.dumps(result)
 
-app.on_insert_import = product.before_import
+@app.route('/validate_import', methods=['POST'])
+def validate_import():
+    ids = json.loads(request.form['ids'])
+    validate.validate('import', ids)
+    return "success"
+
+@app.route('/validate_export', methods=['POST'])
+def validate_export():
+    ids = json.loads(request.form['ids'])
+    validate.validate('export', ids)
+    return "success"
+

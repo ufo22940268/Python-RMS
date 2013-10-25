@@ -1,4 +1,4 @@
-pip install git+git://github.com/nicolaiarocci/eve.git@develop
+git+https://github.com/ufo22940268/eve.git@master
 Eve==0.0.6
 Cerberus==0.2.0
 Events==0.1.0

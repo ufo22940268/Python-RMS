@@ -18,6 +18,7 @@ rms/export.py
 rms/product.py
 rms/rms.py
 rms/settings.py
+rms/validate.py
 rms.egg-info/PKG-INFO
 rms.egg-info/SOURCES.txt
 rms.egg-info/dependency_links.txt

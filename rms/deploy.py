@@ -16,7 +16,7 @@ def is_local():
 
 def get_host():
     user = os.environ['USER']
-    if user == 'ccheng':
+    if user == 'ccheng' or user == 'garlic':
         return '127.0.0.1'
     else:
         return '192.241.196.189'

@@ -13,7 +13,7 @@ MONGO_DBNAME = 'rms'
 DEBUG = True
 
 AUTH_FIELD = "user_id"
-#DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
+DATE_FORMAT = "%Y-%m-%d %H:%M"
 
 #if deploy.is_local():
     ## let's not forget the API entry point
@@ -161,9 +161,29 @@ operator = {
             'type': 'string',
         },
 
-        'permission': {
-            'type': 'list',
-            'allowed': ['read', 'add', 'delete', 'validate']
+        # 0     0      0     0
+        #view add delete check
+        #
+        #For example:
+        #  0100 only has add permission
+        'import_permission': {
+            'type': 'string',
+            'default': '1111',
+        },
+
+        'export_permission': {
+            'type': 'string',
+            'default': '1111',
+        },
+
+        'product_permission': {
+            'type': 'string',
+            'default': '1111',
+        },
+
+        'provider_permission': {
+            'type': 'string',
+            'default': '1111',
         },
 
         # Foreign key to super user.
@@ -437,10 +457,6 @@ imports = {
         'product_snum': {
             'type': 'string',
             'required': True,
-            'data_relation' : {
-                'collection' : 'product',
-                'field': 'snum',
-            }
         },
 
         #颜色
@@ -468,6 +484,13 @@ imports = {
         #单位
         'unit': {
             'type': 'string',
+        },
+
+        #审核
+        'validated': {
+            'type': 'string',
+            'default': '0',
+            'allowed': ['0', '1'],
         }
     }
 }
@@ -557,6 +580,13 @@ export = {
         'quantity': {
             'type': 'string',
             'default': '1',
+        },
+
+        #审核
+        'validated': {
+            'type': 'string',
+            'default': '0',
+            'allowed': ['0', '1'],
         }
     },
 }
@@ -570,7 +600,7 @@ test = {
 
         'num': {
             'type': 'integer',
-        }, 
+        },
 
         'k': {
             'type': 'string',
