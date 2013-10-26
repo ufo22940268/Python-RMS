@@ -258,6 +258,14 @@ customer = {
         'comment': {
             'type': 'string',
         },
+
+        #0 供应商管理
+        #1 客户管理
+        #2 客户管理
+        'type': {
+            'type': 'string',
+            'allowed': ['0', '1', '2'],
+        },
     }
 }
 
@@ -391,11 +399,20 @@ order = {
             'type': 'string',
         },
 
-        #备注u
+        #备注
         'comment': {
             'type': 'string',
         },
 
+        #类别
+        'type': {
+            'type': 'string',
+        },
+
+        #帐号
+        'account': {
+            'type': 'string',
+        },
     }
 }
 
