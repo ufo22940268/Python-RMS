@@ -52,14 +52,18 @@ def login():
         msg = 'login succeed'
         token =  "Basic " + account.create_credential(name, password)
         status = 200
-        banned_permissions = one.get('banned_permissions')
+        info = dict()
+        for k, v in one.items():
+            if k.find("permission") != -1:
+                info[k] = v
     else:
         msg = 'login failed'
         token =  ""
         status = 404
-        banned_permissions = []
+        info = dict()
 
-    result = {"msg": msg, "token": token, "status": status, 'banned_permissions': banned_permissions}
+    import pdb; pdb.set_trace()
+    result = {"msg": msg, "token": token, "status": status, 'info': info}
     if sid:
         result['super_user_id'] = sid
     return json.dumps(result)
@@ -74,5 +78,17 @@ def validate_import():
 def validate_export():
     ids = json.loads(request.form['ids'])
     validate.validate('export', ids)
+    return "success"
+
+@app.route('/validate_order', methods=['POST'])
+def validate_order():
+    ids = json.loads(request.form['ids'])
+    validate.validate('order', ids)
+    return "success"
+
+@app.route('/validate_open_order', methods=['POST'])
+def validate_open_order():
+    ids = json.loads(request.form['ids'])
+    validate.validate('open_order', ids)
     return "success"
 

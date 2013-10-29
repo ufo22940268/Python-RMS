@@ -2,6 +2,7 @@
 
 import os
 from rms import deploy
+import copy
 
 # Running on local machine. Let's just use the local mongod instance.
 MONGO_HOST = 'localhost'
@@ -113,25 +114,86 @@ operator = {
         #
         #For example:
         #  0100 only has add permission
+        
+        #入库
         'import_permission': {
                 'type': 'string',
                 'default': '1111',
                 },
 
+        #出库
         'export_permission': {
                 'type': 'string',
                 'default': '1111',
                 },
+        
+        #库存结存
+        'query_permission': {
+                'type': 'string',
+                'default': '1',
+                },
+        
 
+        #产品信息管理
         'product_permission': {
                 'type': 'string',
                 'default': '1111',
                 },
 
+        #供应商信息管理
         'provider_permission': {
                 'type': 'string',
                 'default': '1111',
                 },
+
+        #操作员信息管理
+        'operator_permission': {
+                'type': 'string',
+                'default': '1111',
+                },
+
+        #客户管理
+        'customer_permission': {
+                'type': 'string',
+                'default': '1111',
+                },
+
+        #销售订单
+        'order_permission': {
+                'type': 'string',
+                'default': '1111',
+                },
+
+        #销售开单
+        'open_order_permission': {
+                'type': 'string',
+                'default': '1111',
+                },
+
+        #录音
+        'recorder_permission': {
+                'type': 'string',
+                'default': '11',
+                },
+
+        #ip电话
+        'ip_tel_permission': {
+                'type': 'string',
+                'default': '11',
+                },
+
+        #ip电话联系人管理
+        'contact_permission': {
+                'type': 'string',
+                'default': '1111',
+                },
+
+        #视频监控
+        'contact_permission': {
+                'type': 'string',
+                'default': '111111',
+                },
+
 
         # Foreign key to super user.
         'super_user_id': {
@@ -145,296 +207,111 @@ operator = {
         }
 }
 
-contact = {
-        'schema': {
-            #编码
-            'snum': {
+contact_schema = {
+        #编码
+        'snum': {
+            'type': 'string',
+            'unique': True,
+            },
+
+        #联系人
+        'name': {
+            'type': 'string',
+            },
+
+        #公司名称
+        'company': {
+            'type': 'string',
+            'required': 'true',
+            },
+
+        #联系电话
+        'tel': {
+            'type': 'string',
+            },
+
+        'mobile': {
+            'type': 'string',
+            },
+
+        'fax': {
+            'type': 'string',
+            },
+
+        'address': {
+            'type': 'string',
+            },
+
+        'contact_type': {
+            'type': 'string',
+            },
+
+        #邮编
+        'postcode': {
+            'type': 'string',
+            },
+
+        'email': {
+            'type': 'string',
+            },
+
+        'qq': {
+            'type': 'string',
+            },
+
+        'kaihuhang_name': {
+            'type': 'string',
+            },
+
+        'kaihuhang_account': {
+            'type': 'string',
+            },
+
+        'category': {
                 'type': 'string',
-                'unique': True,
                 },
 
-            #名称
-            'name': {
-                'type': 'string',
-                },
+        #备注
+    'comment': {
+            'type': 'string',
+            },
 
-            #联系人
-            'contact': {
-                'type': 'string',
-                },
-
-            #联系电话
-            'tel': {
-                'type': 'string',
-                },
-
-            'mobile': {
-                'type': 'string',
-                },
-
-            'fax': {
-                'type': 'string',
-                },
-
-            'address': {
-                'type': 'string',
-                },
-
-            #邮编
-            'postcode': {
-                'type': 'string',
-                },
-
-            'email': {
-                'type': 'string',
-                },
-
-            'qq': {
-                'type': 'string',
-                },
-
-            'py_kaihuhang': {
-                'type': 'string',
-                },
-
-            'category': {
-                    'type': 'string',
-                    },
-
-            #备注
-        'comment': {
-                'type': 'string',
-                },
-
-        #0 for provider, 1 for customer, 2 for person
-        'type': {
-                'type': 'integer',
-                'allowed': [1, 2, 3],
-                }
-        }
+    #0 for provider, 1 for customer, 2 for person
+    'type': {
+            'type': 'integer',
+            'allowed': [1, 2, 3],
+            }
 }
 
-provider = {
-        'schema': {
-            #编码
-            'snum': {
-                'type': 'string',
-                'unique': True,
-                },
+contact = {'schema': contact_schema}
 
-            #名称
-            'name': {
-                'type': 'string',
-                },
-
-            #联系人
-            'contact': {
-                'type': 'string',
-                },
-
-            #联系电话
-            'tel': {
-                'type': 'string',
-                },
-
-            'mobile': {
-                'type': 'string',
-                },
-
-            'fax': {
-                'type': 'string',
-                },
-
-            'address': {
-                'type': 'string',
-                },
-
-            #邮编
-            'postcode': {
-                'type': 'string',
-                },
-
-            'email': {
-                'type': 'string',
-                },
-
-            'qq': {
-                'type': 'string',
-                },
-
-            'py_kaihuhang': {
-                'type': 'string',
-                },
-
-            'category': {
-                    'type': 'string',
-                    },
-
-            #备注
-        'comment': {
-                'type': 'string',
-                },
-
-        #0 for provider, 1 for customer, 2 for person
-        'type': {
-                'type': 'integer',
-                'default': 3,
-                'allowed': [1, 2, 3],
+customer = {
+        'datasource': {
+                'source': 'contact',
+                'filter': {'type': 1}
                 }
-        },
+        }
+customer['schema'] = copy.deepcopy(contact_schema)
+customer['schema']['type']['default'] = 1
+
+person = {
+        'datasource': {
+                'source': 'contact',
+                'filter': {'type': 2}
+                }
+        }
+person['schema'] = copy.deepcopy(contact_schema)
+person['schema']['type']['default'] = 2
+
+provider = {
         'datasource': {
                 'source': 'contact',
                 'filter': {'type': 3}
                 }
         }
 
-customer = {
-        'schema': {
-            #编码
-            'snum': {
-                'type': 'string',
-                'unique': True,
-                },
-
-            #名称
-            'name': {
-                'type': 'string',
-                },
-
-            #联系人
-            'contact': {
-                'type': 'string',
-                },
-
-            #联系电话
-            'tel': {
-                'type': 'string',
-                },
-
-            'mobile': {
-                'type': 'string',
-                },
-
-            'fax': {
-                'type': 'string',
-                },
-
-            'address': {
-                'type': 'string',
-                },
-
-            #邮编
-            'postcode': {
-                'type': 'string',
-                },
-
-            'email': {
-                'type': 'string',
-                },
-
-            'qq': {
-                'type': 'string',
-                },
-
-            'py_kaihuhang': {
-                'type': 'string',
-                },
-
-            'category': {
-                    'type': 'string',
-                    },
-
-            #备注
-        'comment': {
-                'type': 'string',
-                },
-
-        #0 for provider, 1 for customer, 2 for person
-        'type': {
-                'type': 'integer',
-                'default': 1,
-                'allowed': [0, 1, 2],
-                }
-        },
-        'datasource': {
-                'source': 'contact',
-                'filter': {'type': 1}
-                }
-        }
-
-person = {
-        'schema': {
-            #编码
-            'snum': {
-                'type': 'string',
-                'unique': True,
-                },
-
-            #名称
-            'name': {
-                'type': 'string',
-                },
-
-            #联系人
-            'contact': {
-                'type': 'string',
-                },
-
-            #联系电话
-            'tel': {
-                'type': 'string',
-                },
-
-            'mobile': {
-                'type': 'string',
-                },
-
-            'fax': {
-                'type': 'string',
-                },
-
-            'address': {
-                'type': 'string',
-                },
-
-            #邮编
-            'postcode': {
-                'type': 'string',
-                },
-
-            'email': {
-                'type': 'string',
-                },
-
-            'qq': {
-                'type': 'string',
-                },
-
-            'py_kaihuhang': {
-                'type': 'string',
-                },
-
-            'category': {
-                    'type': 'string',
-                    },
-
-            #备注
-        'comment': {
-                'type': 'string',
-                },
-
-        #0 for provider, 1 for customer, 2 for person
-        'type': {
-                'type': 'integer',
-                'default': 2,
-                'allowed': [0, 1, 2],
-                }
-        },
-        'datasource': {
-                'source': 'contact',
-                'filter': {'type': 2}
-                }
-        }
+provider['schema'] = copy.deepcopy(contact_schema)
+provider['schema']['type']['default'] = 3
 
 product = {
         'schema': {
@@ -500,65 +377,77 @@ product = {
         }
 }
 
-order = {
-        'schema': {
+order_schema = {
+        #订单号
+        'snum': {
+            'type': 'string',
+            'required': 'true',
+            'unique': 'true',
+            },
 
-            #订单号
-            'snum': {
-                'type': 'string',
-                'required': 'true',
-                'unique': 'true',
-                },
+        #客户名称
+        'customer_name': {
+            'type': 'string',
+            },
 
-            #客户名称
-            'customer_name': {
-                'type': 'string',
-                },
+        #联系人
+        'contact': {
+            'type': 'string',
+            },
 
-            #联系人
-            'contact': {
-                'type': 'string',
-                },
+        #产品名称
+        'product_name': {
+            'type': 'string',
+            },
 
-            #快递公司
-            'deliver': {
-                'type': 'string',
-                },
 
-            #发货时间
-            'deliver_time': {
-                'type': 'string',
-                },
+        #快递公司
+        'deliver': {
+            'type': 'string',
+            },
 
-            #产品编码
-            'product_snum': {
-                'type': 'string',
-                'required': True,
-                'data_relation' : {
-                    'collection' : 'product',
-                    'field': 'snum',
-                    }
-                },
+        #发货时间
+        'deliver_time': {
+            'type': 'string',
+            },
 
-            #单位
-            'unit_price': {
-                'type': 'string',
-                },
+        #产品编码
+        'product_snum': {
+            'type': 'string',
+            'required': True,
+            'data_relation' : {
+                'collection' : 'product',
+                'field': 'snum',
+                }
+            },
 
-            #数量
-            'quantity': {
-                'type': 'string',
-                },
+        #单位
+        'unit_price': {
+            'type': 'string',
+            },
 
-            #总价
-            'total_price': {
-                    'type': 'string',
-                    },
+        #数量
+        'quantity': {
+            'type': 'string',
+            },
 
-            #订单状态
+        #总价
+        'total_price': {
+            'type': 'string',
+            },
+
+        #订单状态
+            #"wait_for_buyer" 等待买家付款
+            #"buyer_paid" 买家已付款
+            #"seller_delivered" 卖家已发货
+            #"repo_delivered" 仓库已发货
+            #"refund" 已退款
+            #"buyer_returned" 卖家已退货
+
         'status': {
                 'type': 'string',
-                'allowed': ["wait_for_buyer", "buyer_paid", "buyer_delivered", "refund"],
+                'default': 'default',
+                'allowed': ['default', "wait_for_buyer", "buyer_paid", "seller_delivered", "refund", "buyer_returned", "repo_delivered"],
                 },
 
         #送货地址
@@ -571,8 +460,33 @@ order = {
                 'type': 'string',
                 },
 
+        'type': {
+                'type': 'integer',
+                'allowed': [1, 2],
+                },
+        #审核
+        'validated': {
+                'type': 'string',
+                'default': '0',
+                'allowed': ['0', '1'],
+                }
         }
-}
+
+order = {
+        'datasource': {
+                'source': 'order',
+                }
+        }
+
+order['schema'] = copy.deepcopy(order_schema)
+
+open_order = {
+        'datasource': {
+                'source': 'open_order',
+                }
+        }
+
+open_order['schema'] = copy.deepcopy(order_schema)
 
 
 imports = {
@@ -878,6 +792,9 @@ DOMAIN = {
 
         #订单
         'order': order,
+
+        #开单
+        'open_order': open_order,
 
         #'account': account,
         'test': test
