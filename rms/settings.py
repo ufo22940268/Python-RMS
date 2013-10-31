@@ -109,6 +109,10 @@ operator = {
                     'type': 'string',
                     },
 
+            'enabled': {
+                    'type': 'string',
+                    'default': '1',
+                    },
             # 0     0      0     0
         #view add delete check
         #
@@ -189,11 +193,16 @@ operator = {
                 },
 
         #视频监控
-        'contact_permission': {
+        'video_permission': {
                 'type': 'string',
-                'default': '111111',
+                'default': '1',
                 },
 
+        #视频监控
+        'verify_permission': {
+                'type': 'string',
+                'default': '111',
+                },
 
         # Foreign key to super user.
         'super_user_id': {
@@ -374,6 +383,79 @@ product = {
                     'type': 'string',
                     'default': '0',
                     },
+        }
+}
+
+record = {
+        'schema': {
+
+            'ID': {
+                'type': 'string',
+                },
+
+            'CompID': {
+                'type': 'string',
+                },
+
+            'RecDate': {
+                'type': 'string',
+                },
+
+            'RecTime': {
+                'type': 'string',
+                },
+
+            'RecLen': {
+                'type': 'string',
+                },
+
+            'DialNum': {
+                'type': 'string',
+                },
+
+            'CallerId': {
+                'type': 'string',
+                },
+
+            'RingNum': {
+                'type': 'string',
+                },
+
+            'RecTxt': {
+                'type': 'string',
+                },
+
+            'NameNo': {
+                'type': 'string',
+                },
+
+            'ENDID': {
+                'type': 'string',
+                },
+
+            'RecFileName': {
+                'type': 'string',
+                },
+
+            'QuestionID': {
+                'type': 'string',
+                },
+
+            'BakFlag': {
+                'type': 'string',
+                },
+
+            'YSFlag': {
+                'type': 'string',
+                },
+
+            'UserBuf': {
+                'type': 'string',
+                },
+
+            'UserFlag': {
+                'type': 'string',
+                },
         }
 }
 
@@ -795,6 +877,9 @@ DOMAIN = {
 
         #开单
         'open_order': open_order,
+
+        #录音
+        'record': record,
 
         #'account': account,
         'test': test

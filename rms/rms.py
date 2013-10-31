@@ -21,7 +21,8 @@ class MyBasicAuth(BasicAuth):
         operators = app.data.driver.db['operator']
         super_users = app.data.driver.db['super_user']
         user = operators.find_one({'name': username})
-        if user:
+
+        if user and user.get('super_user_id'):
             self.request_auth_value = user['super_user_id']
         else:
             user = super_users.find_one({'name': username})
@@ -31,7 +32,6 @@ class MyBasicAuth(BasicAuth):
         return user and user['password'] == password
 
 app = Eve(settings='rms/settings.py', auth=MyBasicAuth)
-#app = Eve(settings='rms/settings.py')
 app.on_insert_import = product.before_import
 
 @app.before_request
@@ -62,7 +62,6 @@ def login():
         status = 404
         info = dict()
 
-    import pdb; pdb.set_trace()
     result = {"msg": msg, "token": token, "status": status, 'info': info}
     if sid:
         result['super_user_id'] = sid

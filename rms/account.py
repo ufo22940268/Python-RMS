@@ -24,7 +24,7 @@ def get_one(username, password):
     users = list(rms.app.data.driver.db["super_user"].find()) + \
             list(rms.app.data.driver.db["operator"].find())
     for u in users:
-        if username == u['name'] and password == u['password']:
+        if username == u['name'] and password == u['password'] and u.get('enabled') != '0':
             return u
     return None
 
