@@ -90,4 +90,3 @@ def validate_open_order():
     ids = json.loads(request.form['ids'])
     validate.validate('open_order', ids)
     return "success"
-

@@ -12,6 +12,7 @@
 
 import json
 import requests
+import random
 
 BASE_URL = "http://127.0.0.1:5000/"
 AUTH = ("asdf", "asdf")
@@ -30,10 +31,22 @@ class End(object):
     def clear(self):
         requests.delete(self.url, auth=AUTH)
 
-    def add(self, d):
+    def generate_snum(self):
+        return self.end.upper() + str(random.randrange(100000))
+
+    def add(self, d, snum = False):
+        if snum and not d.get('snum'):
+            d['snum'] = self.generate_snum()
         p = {'item1': str(json.dumps(d))}
-        requests.post(self.url, p, auth=AUTH)
+        r = requests.post(self.url, p, auth=AUTH)
+        if  json.loads(r.text)['item1']['status'] != "OK":
+            raise Exception(r.text)
 
     def get(self):
         r = requests.get(self.url, auth=AUTH)
         return json.loads(r.text)['_items']
+    
+    def get_one(self):
+        a = self.get()
+        if a and len(a):
+            return a[0]

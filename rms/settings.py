@@ -118,7 +118,7 @@ operator = {
         #
         #For example:
         #  0100 only has add permission
-        
+
         #入库
         'import_permission': {
                 'type': 'string',
@@ -130,13 +130,13 @@ operator = {
                 'type': 'string',
                 'default': '1111',
                 },
-        
+
         #库存结存
         'query_permission': {
                 'type': 'string',
                 'default': '1',
                 },
-        
+
 
         #产品信息管理
         'product_permission': {
@@ -269,12 +269,12 @@ contact_schema = {
             },
 
         'kaihuhang_name': {
-            'type': 'string',
-            },
+                'type': 'string',
+                },
 
         'kaihuhang_account': {
-            'type': 'string',
-            },
+                'type': 'string',
+                },
 
         'category': {
                 'type': 'string',
@@ -290,33 +290,33 @@ contact_schema = {
             'type': 'integer',
             'allowed': [1, 2, 3],
             }
-}
+    }
 
 contact = {'schema': contact_schema}
 
 customer = {
         'datasource': {
-                'source': 'contact',
-                'filter': {'type': 1}
-                }
+            'source': 'contact',
+            'filter': {'type': 1}
+            }
         }
 customer['schema'] = copy.deepcopy(contact_schema)
 customer['schema']['type']['default'] = 1
 
 person = {
         'datasource': {
-                'source': 'contact',
-                'filter': {'type': 2}
-                }
+            'source': 'contact',
+            'filter': {'type': 2}
+            }
         }
 person['schema'] = copy.deepcopy(contact_schema)
 person['schema']['type']['default'] = 2
 
 provider = {
         'datasource': {
-                'source': 'contact',
-                'filter': {'type': 3}
-                }
+            'source': 'contact',
+            'filter': {'type': 3}
+            }
         }
 
 provider['schema'] = copy.deepcopy(contact_schema)
@@ -383,7 +383,7 @@ product = {
                     'type': 'string',
                     'default': '0',
                     },
-        }
+            }
 }
 
 record = {
@@ -438,25 +438,25 @@ record = {
                 },
 
             'QuestionID': {
-                'type': 'string',
-                },
+                    'type': 'string',
+                    },
 
             'BakFlag': {
-                'type': 'string',
-                },
+                    'type': 'string',
+                    },
 
             'YSFlag': {
-                'type': 'string',
-                },
+                    'type': 'string',
+                    },
 
             'UserBuf': {
-                'type': 'string',
-                },
+                    'type': 'string',
+                    },
 
             'UserFlag': {
-                'type': 'string',
-                },
-        }
+                    'type': 'string',
+                    },
+            }
 }
 
 order_schema = {
@@ -510,13 +510,13 @@ order_schema = {
 
         #数量
         'quantity': {
-            'type': 'string',
-            },
+                'type': 'string',
+                },
 
         #总价
         'total_price': {
-            'type': 'string',
-            },
+                'type': 'string',
+                },
 
         #订单状态
             #"wait_for_buyer" 等待买家付款
@@ -537,7 +537,7 @@ order_schema = {
                 'type': 'string',
                 },
 
-        #备注u
+        #备注
         'comment': {
                 'type': 'string',
                 },
@@ -556,16 +556,16 @@ order_schema = {
 
 order = {
         'datasource': {
-                'source': 'order',
-                }
+            'source': 'order',
+            }
         }
 
 order['schema'] = copy.deepcopy(order_schema)
 
 open_order = {
         'datasource': {
-                'source': 'open_order',
-                }
+            'source': 'order',
+            }
         }
 
 open_order['schema'] = copy.deepcopy(order_schema)
@@ -705,20 +705,20 @@ export = {
 
             #产品编码
             'product_snum': {
-                'type': 'string',
-                'required': True,
-                'data_relation' : {
-                    'collection' : 'product',
-                    'field': 'snum',
-                    }
-                },
+                    'type': 'string',
+                    'required': True,
+                    'data_relation' : {
+                        'collection' : 'product',
+                        'field': 'snum',
+                        }
+                    },
 
             #供应单位
             'provider':{
                     'type': 'string',
                     },
 
-        #颜色
+            #颜色
         #采用整数来进行表示
         'color': {
                 'type': 'string'
