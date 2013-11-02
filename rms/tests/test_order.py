@@ -24,7 +24,6 @@ def setup_module():
     order_end.clear()
     open_order_end.clear()
 
-@pytest.mark.order
 def test_add():
     order_end.add({'product_name': 'name', 'product_snum': '1'}, snum = True)
     assert open_order_end.get_one()

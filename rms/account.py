@@ -33,11 +33,14 @@ def exists(name, pwd):
 
 def update_super_user_id(request, payload):
     name, pwd = parse_username_and_password(request)
-    print name, pwd
+
+    #Parse inserted id.
+    insert_id = json.loads(payload.get_data())['item1']['_id']
+
     one = get_db()['super_user'].find_one({'name': name, 'password': pwd})
     if one:
         super_id = one['_id']
-        get_db()['operator'].update({'name': name}, {'$set': {'super_user_id': super_id}})
+        get_db()['operator'].update({'_id': ObjectId(insert_id)}, {'$set': {'super_user_id': super_id}})
 
 def parse_username_and_password(request):
     if request.headers.get('Authorization'):

@@ -22,7 +22,8 @@ class MyBasicAuth(BasicAuth):
         super_users = app.data.driver.db['super_user']
         user = operators.find_one({'name': username})
 
-        if user and user.get('super_user_id'):
+        #Auth value is to indicate which field is used to store the identification of resource. This affects the all kinds of request following.
+        if user:
             self.request_auth_value = user['super_user_id']
         else:
             user = super_users.find_one({'name': username})
@@ -33,6 +34,7 @@ class MyBasicAuth(BasicAuth):
 
 app = Eve(settings='rms/settings.py', auth=MyBasicAuth)
 app.on_insert_import = product.before_import
+app.on_POST_operator = account.update_super_user_id
 
 @app.before_request
 def log_request():
