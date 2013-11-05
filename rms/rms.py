@@ -34,6 +34,7 @@ class MyBasicAuth(BasicAuth):
 
 app = Eve(settings='rms/settings.py', auth=MyBasicAuth)
 app.on_insert_import = product.before_import
+app.on_insert_export = product.before_export
 app.on_POST_operator = account.update_super_user_id
 
 @app.before_request

@@ -29,7 +29,6 @@ def test_operator():
 
 def test_login():
     r = requests.post(get_url("login"), {'name': 'k', 'password': 'k'})
-    print r.text
     assert r.text
 
 #def test_get_list():

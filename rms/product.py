@@ -30,6 +30,22 @@ def before_import(document):
                     {'$set': {'num': num}}
                     )
 
+def before_export(document):
+    product_snum = document[0]['product_snum']
+    if get_db().product.find({'snum': product_snum}).count() == 0:
+        create_product_from_import(document)
+    else:
+        one = get_db().product.find({'snum': product_snum})
+        if one.count() != 0:
+            one = one[0]
+            o_num = int(one['num']) if one.get('num') else 0
+            n_new = int(document[0]['quantity'])
+            num = str(o_num -  n_new)
+            get_db().product.update(
+                    {'snum': product_snum},
+                    {'$set': {'num': num}}
+                    )
+
 def create_product_from_import(doc):
     m = {
             'product_snum': 'snum',
