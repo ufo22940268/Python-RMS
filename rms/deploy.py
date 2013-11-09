@@ -15,8 +15,13 @@ def is_local():
     return os.environ['USER'].find('ccheng') != -1 or os.environ['USER'].find('garlic') != -1
 
 def get_host():
-    user = os.environ['USER']
+    env = os.environ
+    user = env['USER']
     if user == 'ccheng' or user == 'garlic':
         return '127.0.0.1'
     else:
-        return '192.241.196.189'
+        #The useris root, then this must be remote server.
+        if os.env['SSH_CONNECTION'].find('192.168.2.26') != -1:
+            return '122.226.88.51'
+        else:
+            return '192.241.196.189'

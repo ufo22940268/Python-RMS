@@ -3,7 +3,8 @@ from fabric.api import *
 # the user to use for the remote commands
 env.user = 'root'
 # the servers where the commands are executed
-env.hosts = ['192.241.196.189']
+#env.hosts = ['192.241.196.189']
+env.hosts = ['122.226.88.51']
 
 def pack():
     # create a new source distribution as tarball

@@ -21,7 +21,7 @@ DATE_FORMAT = "%Y-%m-%d %H:%M"
     #SERVER_NAME = "127.0.0.1:5000"
 #else:
     #SERVER_NAME = "192.241.196.189:5000"
-#SERVER_NAME = deploy.get_host() + ":5000"
+SERVER_NAME = deploy.get_host() + ":5000"
 
 # Enable reads (GET), inserts (POST) and DELETE for resources/collections
 # (if you omit this line, the API will default to ['GET'] and provide
@@ -565,6 +565,7 @@ order['schema'] = copy.deepcopy(order_schema)
 open_order = {
         'datasource': {
             'source': 'order',
+            'filter': {'validated': '1'}
             }
         }
 
