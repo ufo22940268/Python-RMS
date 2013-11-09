@@ -11,6 +11,7 @@ from eve.auth import BasicAuth
 from eve.auth import TokenAuth
 import validate
 from flask import request, current_app
+import deploy
 
 
 app = None
@@ -32,7 +33,11 @@ class MyBasicAuth(BasicAuth):
 
         return user and user['password'] == password
 
-app = Eve(settings='rms/settings.py', auth=MyBasicAuth)
+if deploy.is_local():
+    app = Eve(settings='rms/settings.py', auth=MyBasicAuth)
+else:
+    app = Eve(settings='/root/rms/settings.py', auth=MyBasicAuth)
+
 app.on_insert_import = product.before_import
 app.on_insert_export = product.before_export
 app.on_POST_operator = account.update_super_user_id

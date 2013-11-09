@@ -3,8 +3,7 @@ from fabric.api import *
 # the user to use for the remote commands
 env.user = 'root'
 # the servers where the commands are executed
-#env.hosts = ['192.241.196.189']
-env.hosts = ['122.226.88.51']
+env.hosts = ['192.241.196.189']
 
 def pack():
     # create a new source distribution as tarball
@@ -38,10 +37,13 @@ def deploy():
     relaunch();
 
 def relaunch():
-    run('pkill -f run.py', warn_only = True)
+    run('pkill -f gunicorn', warn_only = True)
     with cd('/root'):
         with prefix('source /root/Python-RMS/bin/activate'):
-            run('python run.py &> /root/rms/log.txt', pty=False, shell_escape=False)
+            #run('python run.py &> /root/rms/log.txt', pty=False, shell_escape=False)
+            #run('gunicorn -w 4 -b 127.0.0.1:5000 run:app &> /root/rms/log.txt', pty=False, shell_escape=False)
+            run('gunicorn -w 4 -b 127.0.0.1:5000 run:app', pty=False, shell_escape=False)
+            #run('gunicorn -w 4 -b 192.241.196.189:5000 run:app &> /root/rms/log.txt', pty=False, shell_escape=False)
 
 def db():
     # Migrate db file.
