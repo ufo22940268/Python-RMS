@@ -21,7 +21,11 @@ DATE_FORMAT = "%Y-%m-%d %H:%M"
     #SERVER_NAME = "127.0.0.1:5000"
 #else:
     #SERVER_NAME = "192.241.196.189:5000"
-SERVER_NAME = deploy.get_host()
+
+if deploy.is_local():
+    SERVER_NAME = "127.0.0.1:5000"
+else:
+    SERVER_NAME = deploy.get_host()
 
 # Enable reads (GET), inserts (POST) and DELETE for resources/collections
 # (if you omit this line, the API will default to ['GET'] and provide

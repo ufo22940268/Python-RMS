@@ -14,8 +14,8 @@ import json
 import requests
 import random
 
-BASE_URL = "http://127.0.0.1:5000/"
-#BASE_URL = "http://122.226.88.51:5000/"
+#BASE_URL = "http://127.0.0.1:5000/"
+BASE_URL = "http://192.241.196.189/"
 AUTH = ("asdf", "asdf")
 
 def get_url(s):
