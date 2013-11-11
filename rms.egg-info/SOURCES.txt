@@ -1,5 +1,11 @@
 MANIFEST.in
 setup.py
+eve_docs/__init__.py
+eve_docs/config.py
+eve_docs/labels.py
+eve_docs/templates/evedocstyle.html
+eve_docs/templates/index.html
+eve_docs/templates/macros.html
 rms/__init__.py
 rms/account.py
 rms/db.py
@@ -15,8 +21,4 @@ rms.egg-info/dependency_links.txt
 rms.egg-info/not-zip-safe
 rms.egg-info/requires.txt
 rms.egg-info/top_level.txt
-rms/eve_docs/__init__.py
-rms/eve_docs/config.py
-rms/eve_docs/labels.py
-rms/eve_docs/templates/__init__.py
 rms/template/a.html

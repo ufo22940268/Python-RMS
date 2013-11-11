@@ -43,8 +43,8 @@ class End(object):
         if  json.loads(r.text)['item1']['status'] != "OK":
             raise Exception(r.text)
 
-    def get(self):
-        r = requests.get(self.url, auth=AUTH)
+    def get(self, params={}):
+        r = requests.get(self.url, auth=AUTH, params=params)
         return json.loads(r.text)['_items']
 
     def get_one(self):

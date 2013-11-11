@@ -12,6 +12,8 @@ from eve.auth import TokenAuth
 import validate
 from flask import request, current_app
 import deploy
+from bson.json_util import dumps
+import itertools
 
 
 app = None
@@ -74,6 +76,29 @@ def login():
     if sid:
         result['super_user_id'] = sid
     return json.dumps(result)
+
+@app.route('/warning_product', methods=['GET'])
+def warning_product():
+    product = app.data.driver.db['product']
+    plist = []
+    for p in list(product.find()):
+        if to_int(p['num']) < to_int(p['min']):
+            plist.append(p)
+
+    max_results = int(request.args.get('max_results', 0))
+    page = int(request.args.get('page', 1))
+    if max_results:
+        plist = list(getrows_byslice(plist, max_results))[page - 1]
+    r = dumps({'_items': plist})
+
+    return r
+
+def getrows_byslice(seq, rowlen):
+    for start in xrange(0, len(seq), rowlen):
+        yield seq[start:start+rowlen]
+
+def to_int(s):
+    return int(s) if s else 0
 
 @app.route('/validate_import', methods=['POST'])
 def validate_import():
