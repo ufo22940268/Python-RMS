@@ -387,7 +387,7 @@ product = {
                     'type': 'string',
                     'default': '0',
                     },
-            }
+            },
 }
 
 record = {

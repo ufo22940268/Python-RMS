@@ -14,8 +14,8 @@ import json
 import requests
 import random
 
-#BASE_URL = "http://127.0.0.1:5000/"
-BASE_URL = "http://192.241.196.189/"
+BASE_URL = "http://127.0.0.1:5000/"
+#BASE_URL = "http://192.241.196.189/"
 AUTH = ("asdf", "asdf")
 
 def get_url(s):
@@ -46,7 +46,7 @@ class End(object):
     def get(self):
         r = requests.get(self.url, auth=AUTH)
         return json.loads(r.text)['_items']
-    
+
     def get_one(self):
         a = self.get()
         if a and len(a):

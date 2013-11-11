@@ -42,3 +42,13 @@ def minus(snum):
 
 def get_count(snum):
     return product.get()[0]['num']
+
+@pytest.fixture
+def init():
+    imports.clear();
+    exports.clear();
+    product.clear()
+
+def test_get_above_minimun(init):
+    product.add({'name': 'p', 'snum': TEST_PRODUCT_SNUM, 'num': '5', 'max': '4'})
+    product.add({'name': 'p', 'snum': 'product22222', 'num': '35', 'max': '4'})
