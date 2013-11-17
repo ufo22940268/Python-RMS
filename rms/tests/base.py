@@ -13,6 +13,7 @@
 import json
 import requests
 import random
+from pymongo import *
 
 BASE_URL = "http://127.0.0.1:5000/"
 #BASE_URL = "http://192.241.196.189/"
@@ -51,3 +52,8 @@ class End(object):
         a = self.get()
         if a and len(a):
             return a[0]
+
+def get_db():
+    client = MongoClient('localhost')
+    db = client['rms']
+    return db

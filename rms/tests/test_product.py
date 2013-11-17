@@ -65,3 +65,15 @@ def test_warning_product(init):
     items = warning_product.get({'max_results': 1, 'page': 1})
     assert items[0]['name'] == 'p1'
     assert len(items) == 1
+
+def test_warning_product2(init):
+    product.add({'name': 'p1', 'snum': TEST_PRODUCT_SNUM, 'num': '5', 'max': '6'})
+    product.add({'name': 'p2', 'snum': 'product22222', 'num': '35', 'max': '4'})
+    product.add({'name': 'p3', 'snum': 'product22223', 'num': '5', 'max': '6'})
+
+    len(warning_product.get()) == 1
+    warning_product.get()[0]['name'] = 'p2'
+
+    items = warning_product.get({'max_results': 1, 'page': 1})
+    assert items[0]['name'] == 'p2'
+    assert len(items) == 1

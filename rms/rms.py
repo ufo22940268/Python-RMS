@@ -44,12 +44,12 @@ app.on_insert_import = product.before_import
 app.on_insert_export = product.before_export
 app.on_POST_operator = account.update_super_user_id
 
-@app.before_request
-def log_request():
-    log = "HEADERS:\t\n" + str(request.headers) + "\n"
-    if request.form:
-        log += "\nFORMS:\t\n" + str(request.form);
-    current_app.logger.debug(log)
+#@app.before_request
+#def log_request():
+    #log = "HEADERS:\t\n" + str(request.headers) + "\n"
+    #if request.form:
+        #log += "\nFORMS:\t\n" + str(request.form);
+    #current_app.logger.debug(log)
 
 
 @app.route('/login', methods=['POST'])
@@ -66,12 +66,13 @@ def login():
         for k, v in one.items():
             if k.find("permission") != -1:
                 info[k] = v
+        info['_id'] = str(one['_id'])
     else:
         msg = 'login failed'
         token =  ""
         status = 404
         info = dict()
-
+            
     result = {"msg": msg, "token": token, "status": status, 'info': info}
     if sid:
         result['super_user_id'] = sid
@@ -82,8 +83,15 @@ def warning_product():
     product = app.data.driver.db['product']
     plist = []
     for p in list(product.find()):
-        if to_int(p['num']) < to_int(p['min']):
-            plist.append(p)
+        if p.get('min'):
+            if to_int(p['num']) < to_int(p['min']):
+                plist.append(p)
+                break
+
+        if p.get('max'):
+            if to_int(p['num']) > to_int(p['max']):
+                plist.append(p)
+                break
 
     max_results = int(request.args.get('max_results', 0))
     page = int(request.args.get('page', 1))
@@ -123,3 +131,22 @@ def validate_open_order():
     ids = json.loads(request.form['ids'])
     validate.validate('open_order', ids)
     return "success"
+
+@app.route('/get_password', methods=['GET'])
+def get_password():
+    if not request.args.get('name') and not request.args.get('mobile'):
+        return json.dumps({'status': '204', '_items': '[]'})
+
+    operators = app.data.driver.db['operator']
+    super_users = app.data.driver.db['super_user']
+    op = operators.find_one({'name': request.args.get('name'), 'mobile': request.args.get('mobile')})
+    su = super_users.find_one({'name': request.args.get('name'), 'mobile': request.args.get('mobile')})
+    if op:
+        al = op
+    else:
+        al = su
+    if al:
+        pwd = al['password']
+        return json.dumps({'status': '204', '_items': {'password': pwd}})
+    else:
+        return json.dumps({'status': '204', '_items': '[]'})
