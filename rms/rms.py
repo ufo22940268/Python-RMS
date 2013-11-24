@@ -44,13 +44,16 @@ app.on_insert_import = product.before_import
 app.on_insert_export = product.before_export
 app.on_POST_operator = account.update_super_user_id
 
+#For test
+app.on_POST_order = product.insert_or_update_order
+app.on_PATCH_order = product.insert_or_update_order
+
 #@app.before_request
 #def log_request():
     #log = "HEADERS:\t\n" + str(request.headers) + "\n"
     #if request.form:
         #log += "\nFORMS:\t\n" + str(request.form);
     #current_app.logger.debug(log)
-
 
 @app.route('/login', methods=['POST'])
 def login():

@@ -20,3 +20,8 @@ def insert_with_auth_field(collection, data):
     user_id = account.parse_auth_field()
     data['user_id'] = user_id
     collection.insert(data)
+
+def get_import():
+    db = get_db()
+    return getattr(db, 'import')
+

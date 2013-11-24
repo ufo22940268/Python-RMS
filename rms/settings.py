@@ -387,6 +387,11 @@ product = {
                     'type': 'string',
                     'default': '0',
                     },
+            #计量单位
+            'unit': {
+                    'type': 'string',
+                    'default': '',
+                    },
             },
 }
 
@@ -458,6 +463,11 @@ record = {
                     },
 
             'UserFlag': {
+                    'type': 'string',
+                    },
+
+            #评论信息
+            'Comment': {
                     'type': 'string',
                     },
             }
@@ -581,58 +591,58 @@ imports = {
         'schema': {
 
 
-            ##入库单号
-            'snum':{
+        ##入库单号
+        'snum':{
+            'type': 'string',
+            },
+
+        #入库时间
+        'time':{
+            'type': 'datetime',
+            },
+
+        #入库类型
+        'type': {
+            'type': 'string',
+            },
+
+        #供应单位
+        'provider':{
+            'type': 'string',
+            },
+
+        #采购人员
+        'buyer':{
+            'type': 'string',
+            },
+
+        #操作人员
+        'operator':{
+            'type': 'string',
+            },
+
+        #产品名称
+        'product_name': {
+            'type': 'string',
+            },
+
+        #产品编码
+        'product_snum': {
+            'type': 'string',
+            'required': True,
+            },
+
+        #颜色
+        'color': {
+            'type': 'string',
+            },
+
+        #属性
+        'property': {
                 'type': 'string',
                 },
 
-            #入库时间
-            'time':{
-                'type': 'datetime',
-                },
-
-            #入库类型
-            'type': {
-                'type': 'string',
-                },
-
-            #供应单位
-            'provider':{
-                'type': 'string',
-                },
-
-            #采购人员
-            'buyer':{
-                'type': 'string',
-                },
-
-            #操作人员
-            'operator':{
-                'type': 'string',
-                },
-
-            #产品名称
-            'product_name': {
-                'type': 'string',
-                },
-
-            #产品编码
-            'product_snum': {
-                'type': 'string',
-                'required': True,
-                },
-
-            #颜色
-            'color': {
-                'type': 'string',
-                },
-
-            #属性
-            'property': {
-                    'type': 'string',
-                    },
-
-            #备注
+        #备注
         'comment': {
                 'type': 'string',
                 'default': 'asdfa',
@@ -649,6 +659,13 @@ imports = {
                 'type': 'string',
                 },
 
+        #状态:
+        #   待审核， 已入库， 已取消
+        'state': {
+                'type': 'string',
+                'allowed': ['pending', 'imported', 'canceled']
+        },
+
         #审核
         'validated': {
                 'type': 'string',
@@ -661,69 +678,69 @@ imports = {
 export = {
         'schema': {
 
-            #出库单号
-            'snum':{
+        #出库单号
+        'snum':{
+            'type': 'string',
+            'required': True,
+            'unique': True,
+            },
+
+        #备注
+        'comment': {
+            'type': 'string',
+            },
+
+        #产品名称
+        'product_name': {
+            'type': 'string',
+            },
+
+        #单位
+        'unit': {
+            'type': 'string',
+            },
+
+        #出库时间
+        'time':{
+            'type': 'datetime',
+            },
+
+        #出库类型
+        'type': {
+            'type': 'string',
+            },
+
+        #采购人员
+        'buyer': {
+            'type': 'string'
+            },
+
+        #采购单位
+        'buy_company': {
+            'type': 'string'
+            },
+
+        #操作人员
+        'operator': {
+            'type': 'string'
+            },
+
+        #产品编码
+        'product_snum': {
                 'type': 'string',
                 'required': True,
-                'unique': True,
+                'data_relation' : {
+                    'collection' : 'product',
+                    'field': 'snum',
+                    }
                 },
 
-            #备注
-            'comment': {
+        #供应单位
+        'provider':{
                 'type': 'string',
                 },
 
-            #产品名称
-            'product_name': {
-                'type': 'string',
-                },
-
-            #单位
-            'unit': {
-                'type': 'string',
-                },
-
-            #出库时间
-            'time':{
-                'type': 'datetime',
-                },
-
-            #出库类型
-            'type': {
-                'type': 'string',
-                },
-
-            #采购人员
-            'buyer': {
-                'type': 'string'
-                },
-
-            #采购单位
-            'buy_company': {
-                'type': 'string'
-                },
-
-            #操作人员
-            'operator': {
-                'type': 'string'
-                },
-
-            #产品编码
-            'product_snum': {
-                    'type': 'string',
-                    'required': True,
-                    'data_relation' : {
-                        'collection' : 'product',
-                        'field': 'snum',
-                        }
-                    },
-
-            #供应单位
-            'provider':{
-                    'type': 'string',
-                    },
-
-            #颜色
+        #颜色
         #采用整数来进行表示
         'color': {
                 'type': 'string'
@@ -744,6 +761,14 @@ export = {
                 'type': 'string',
                 'default': '1',
                 },
+
+        #状态:
+        #   待审核， 已出库， 已取消
+        'state': {
+                'type': 'string',
+                'allowed': ['pending', 'exported', 'canceled']
+        },
+
 
         #审核
         'validated': {

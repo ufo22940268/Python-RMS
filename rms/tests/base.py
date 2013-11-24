@@ -22,6 +22,16 @@ AUTH = ("asdf", "asdf")
 def get_url(s):
     return BASE_URL + s
 
+def init_product_p():
+    product = End('product')
+    product.clear()
+    product.add({'name': 'p', 'snum': 'p'})
+
+def get_db():
+    client = MongoClient('localhost')
+    db = client['rms']
+    return db
+
 class End(object):
 
     def __init__(self, end):
@@ -43,9 +53,17 @@ class End(object):
         r = requests.post(self.url, p, auth=AUTH)
         if  json.loads(r.text)['item1']['status'] != "OK":
             raise Exception(r.text)
+        return json.loads(r.text)
+
+    def update(self, id, params):
+        params = {'data': params}
+        r = requests.post(self.url + "/" + id, json.dumps(params),
+                auth=AUTH, headers={'X-HTTP-Method-Override': 'PATCH', 'content-type': 'application/json'})
+        return r.text
 
     def get(self, params={}):
-        r = requests.get(self.url, auth=AUTH, params=params)
+        r = requests.get(self.url, auth=AUTH,
+                params=params)
         return json.loads(r.text)['_items']
 
     def get_one(self):
@@ -53,7 +71,3 @@ class End(object):
         if a and len(a):
             return a[0]
 
-def get_db():
-    client = MongoClient('localhost')
-    db = client['rms']
-    return db

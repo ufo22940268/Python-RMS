@@ -13,6 +13,8 @@
 import account
 from db import *
 from flask import request
+from bson.objectid import ObjectId
+import json
 
 def before_import(document):
     product_snum = document[0]['product_snum']
@@ -69,3 +71,31 @@ def create_product_from_import(doc):
     new['num'] = int(raw['quantity'])
 
     insert_with_auth_field(get_db().product, new)
+
+def insert_or_update_order(request, payload):
+    data = json.loads(payload.data)
+    order_id = data['item1']['_id']
+
+    order = get_db().order.find_one({'_id': ObjectId(order_id)})
+    if not order: 
+        return
+
+    if order['status'] == 'seller_delivered' or order['status'] == 'repo_delivered':
+        add_order_to_imports(order)
+
+def is_product_exists(snum):
+    return get_db().product.find_one({'snum': snum})
+
+def add_order_to_imports(order):
+    if not order.get('product_snum'):
+        return
+
+    if not is_product_exists(order['product_snum']):
+        return
+
+    get_import().insert({
+        'snum': order['product_snum'],
+        'quantity': order.get('quantity'),
+        'product_name': order.get('product_name'),
+        'provider': order.get('contact'),
+        })
