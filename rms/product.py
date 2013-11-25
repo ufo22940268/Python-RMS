@@ -15,6 +15,7 @@ from db import *
 from flask import request
 from bson.objectid import ObjectId
 import json
+import common
 
 def before_import(document):
     product_snum = document[0]['product_snum']
@@ -81,21 +82,26 @@ def insert_or_update_order(request, payload):
         return
 
     if order['status'] == 'seller_delivered' or order['status'] == 'repo_delivered':
-        add_order_to_imports(order)
+        add_order_to_exports(order)
 
 def is_product_exists(snum):
     return get_db().product.find_one({'snum': snum})
 
-def add_order_to_imports(order):
+def add_order_to_exports(order):
     if not order.get('product_snum'):
         return
 
     if not is_product_exists(order['product_snum']):
         return
 
-    get_import().insert({
-        'snum': order['product_snum'],
+    export_snum = common.new_snum('export')
+    get_db().export.insert({
+        'snum': export_snum,
         'quantity': order.get('quantity'),
         'product_name': order.get('product_name'),
+        'product_snum': order.get('product_snum'),
         'provider': order.get('contact'),
         })
+
+    get_db().order.update({'_id': ObjectId(order['_id'])},
+            {'$push': {'exports_snum': export_snum}})

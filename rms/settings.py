@@ -565,7 +565,12 @@ order_schema = {
                 'type': 'string',
                 'default': '0',
                 'allowed': ['0', '1'],
-                }
+                },
+
+        'exports_snum': {
+                'type': 'list',
+                },
+
         }
 
 order = {
@@ -768,7 +773,6 @@ export = {
                 'type': 'string',
                 'allowed': ['pending', 'exported', 'canceled']
         },
-
 
         #审核
         'validated': {

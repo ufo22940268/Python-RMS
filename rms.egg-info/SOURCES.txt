@@ -8,6 +8,7 @@ eve_docs/templates/index.html
 eve_docs/templates/macros.html
 rms/__init__.py
 rms/account.py
+rms/common.py
 rms/db.py
 rms/deploy.py
 rms/export.py

@@ -24,4 +24,3 @@ def insert_with_auth_field(collection, data):
 def get_import():
     db = get_db()
     return getattr(db, 'import')
-

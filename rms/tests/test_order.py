@@ -17,7 +17,7 @@ import requests
 order_end = End('order')
 open_order_end = End('open_order')
 product = End('product')
-imports = End('import')
+exports_end = End('export')
 
 @pytest.fixture
 def init_order():
@@ -25,7 +25,7 @@ def init_order():
     product.add({'name': 'p', 'snum': '1'})
     order_end.clear()
     open_order_end.clear()
-    imports.clear()
+    exports_end.clear()
 
 def test_open_order_validated(init_order):
     order_end.add({'product_name': 'name', 'product_snum': '1', 'validated': '1'}, snum = True)
@@ -40,12 +40,18 @@ def test_open_order_unvalidated(init_order):
 def test_add_order(init_order):
     r = order_end.add({'product_name': 'name', 'product_snum': '1', 'validated': '0'}, snum = True)
     item_id = r['item1']['_id']
-    assert not imports.get_one()
+    assert not exports_end.get_one()
 
+@pytest.mark.current
+def test_add_delivered_order(init_order):
     init_product_p()
-    r = order_end.add({'product_name': 'name', 'product_snum': 'p', 'validated': '0', 'status': 'seller_delivered'}, snum = True)
+    r = order_end.add({'product_name': 'name', 'product_snum': 'p',
+        'validated': '0', 'status': 'seller_delivered'}, snum = True)
     item_id = r['item1']['_id']
-    assert imports.get_one()
+    ex = exports_end.get_one()
+    assert ex
+    assert ex['snum'].find('export_') == 0
 
-    #r = order_end.update(item_id, {'product_name': 'new_name'})
-    #assert order_end.get_one()['product_name'] == 'new_name'
+    #Can't make eve recognize the list i inserted into databse manually.
+    #order = order_end.get_one()
+    #assert len(order['exports_snum'])
