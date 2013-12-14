@@ -43,6 +43,8 @@ def relaunch():
         with prefix('source /root/Python-RMS/bin/activate'):
             #run('python run.py &> /root/rms/log.txt', pty=False, shell_escape=False)
             #run('gunicorn -w 4 -b 127.0.0.1:5000 run:app &> /root/rms/log.txt', pty=False, shell_escape=False)
+            put('requirements.txt', '/tmp/')
+            run('pip install -r /tmp/requirements.txt')
             run('gunicorn -w 4 -b 127.0.0.1:5000 run:app', pty=False, shell_escape=False)
             #run('gunicorn -w 4 -b 192.241.196.189:5000 run:app &> /root/rms/log.txt', pty=False, shell_escape=False)
 

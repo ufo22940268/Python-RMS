@@ -25,7 +25,7 @@ def setup_module():
 def test_super_user_id():
     sid = op_end.get()[0].get('super_user_id')
     assert sid
-    
+
 def test_operator():
     op = op_end.get()[0]
     assert op['name'] == 'k' and op['password'] == 'k'
@@ -79,4 +79,3 @@ def test_get_password():
 
     db = get_db()
     assert db.super_user.find().count() > 0
-

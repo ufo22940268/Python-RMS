@@ -6,7 +6,7 @@ import os
 import json
 import account
 import product
-from flask import request
+from flask import request, url_for
 from eve.auth import BasicAuth
 from eve.auth import TokenAuth
 import validate
@@ -14,7 +14,15 @@ from flask import request, current_app
 import deploy
 from bson.json_util import dumps
 import itertools
+import export
 
+import json
+from bson.json_util import dumps
+
+
+def cursor_to_dict(c):
+    """Convert mongodb cursor object to python dict object"""
+    return json.loads(dumps(c))
 
 app = None
 
@@ -35,10 +43,15 @@ class MyBasicAuth(BasicAuth):
 
         return user and user['password'] == password
 
+PWD = os.environ.get("PWD")
+
+# set folder for static data
+static_folder=os.path.join(PWD,"rms", "static")
+
 if deploy.is_local():
-    app = Eve(settings='rms/settings.py', auth=MyBasicAuth)
+    app = Eve(settings='rms/settings.py', auth=MyBasicAuth, static_folder=static_folder)
 else:
-    app = Eve(settings='/root/rms/settings.py', auth=MyBasicAuth)
+    app = Eve(settings='/root/rms/settings.py', auth=MyBasicAuth, static_folder=static_folder)
 
 app.on_insert_import = product.before_import
 app.on_insert_export = product.before_export
@@ -75,7 +88,7 @@ def login():
         token =  ""
         status = 404
         info = dict()
-            
+
     result = {"msg": msg, "token": token, "status": status, 'info': info}
     if sid:
         result['super_user_id'] = sid
@@ -134,6 +147,19 @@ def validate_open_order():
     ids = json.loads(request.form['ids'])
     validate.validate('open_order', ids)
     return "success"
+
+@app.route('/excel_url')
+def excel_url():
+    if not request.args.get('table'):
+        return 'No table params found'
+    if request.args.get('table') == 'import':
+        table = app.data.driver.db['import']
+    else:
+        table =  app.data.driver.db['export']
+    data = cursor_to_dict(table.find())
+    filename = export.export_to_excel(data)
+    file_url = request.host + url_for('static', filename='files/%s' % filename)
+    return json.dumps({'result': {'excel': file_url}})
 
 @app.route('/get_password', methods=['GET'])
 def get_password():

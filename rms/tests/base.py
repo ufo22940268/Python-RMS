@@ -51,9 +51,10 @@ class End(object):
             d['snum'] = self.generate_snum()
         p = {'item1': str(json.dumps(d))}
         r = requests.post(self.url, p, auth=AUTH)
-        if  json.loads(r.text)['item1']['status'] != "OK":
-            raise Exception(r.text)
-        return json.loads(r.text)
+        if r.text:
+            if  json.loads(r.text)['item1']['status'] != "OK":
+                raise Exception(r.text)
+            return json.loads(r.text)
 
     def update(self, id, params):
         params = {'data': params}
@@ -66,8 +67,12 @@ class End(object):
                 params=params)
         return json.loads(r.text)['_items']
 
+    def get_raw(self, params={}):
+        r = requests.get(self.url, auth=AUTH,
+                params=params)
+        return r
+
     def get_one(self):
         a = self.get()
         if a and len(a):
             return a[0]
-
