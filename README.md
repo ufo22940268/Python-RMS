@@ -53,10 +53,3 @@ post请求用于增加新的数据，下面还是拿product接口进行说明。
 
 curl -d 'item1={"name": "adsf", "company": "hz"}' http://192.241.196.189:5000/product
 
-## 登陆（已经完成，但是没有开放)
-
-登陆采用再请求头中加入Authorization来完成。
-
-比如我们要用名字叫做admin, 密码叫做secret的用户，进行登陆。搜先在把admin:secret用base64的格式进行编码，然后在每次请求中，都加入请求头中。
-
-curl -H "Authorization: Basic YWRtaW46c2VjcmV0" -i http://192.241.196.189:5000/product
